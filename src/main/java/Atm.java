@@ -1,7 +1,12 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Atm {
     private final Console console;
     private final Clock clock;
-    private String transaction;
+    private List<String> activity = new ArrayList<String>();
+    public int accumulatedAmount =0;
 
     public Atm(Console console, Clock clock) {
 
@@ -11,21 +16,17 @@ public class Atm {
 
     public void printStatement() {
         console.println("date || credit || debit || balance");
-        if(isDeposited()){
-            printStatementActivity();
-
-        }
-    }
-
-    private boolean isDeposited() {
-        return transaction != null;
+        printStatementActivity();
     }
 
     private void printStatementActivity() {
-        console.println(transaction);
+        List<String> reverseActivity = new ArrayList<>(activity);
+        Collections.reverse(reverseActivity);
+        reverseActivity.forEach(transaction -> console.println(transaction));
     }
 
     public void deposit(int amount) {
-        transaction = clock.getDate()+" || "+amount+" || || "+amount;
+        accumulatedAmount += amount;
+        activity.add(clock.getDate() + " || " + amount + " || || " + accumulatedAmount);
     }
 }

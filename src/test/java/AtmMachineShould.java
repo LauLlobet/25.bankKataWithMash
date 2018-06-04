@@ -28,13 +28,15 @@ public class AtmMachineShould {
     public void
     print_a_single_deposit_activity() {
         Atm atm = new Atm(console, clock);
-        given(clock.getDate()).willReturn("10/01/2012");
-
-
+        
+        given(clock.getDate()).willReturn("1/1/2001");
         atm.deposit(1000);
+        given(clock.getDate()).willReturn("2/2/2002");
+        atm.deposit(500);
         atm.printStatement();
 
         verify(console).println("date || credit || debit || balance");
-        verify(console).println("10/01/2012 || 1000 || || 1000");
+        verify(console).println("2/2/2002 || 500 || || 1500");
+        verify(console).println("1/1/2001 || 1000 || || 1000");
     }
 }
